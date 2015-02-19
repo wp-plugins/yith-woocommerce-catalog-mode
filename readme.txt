@@ -17,6 +17,8 @@ YITH Woocommerce Catalog Mode allows you to disable shop functions and transform
 
 Discover all the features of the plugin and install it in your theme: the result will be extremely satisfying.
 
+Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woocommerce-catalog-mode/).
+
 = Installation =
 
 Important: before of all you have to download and activate WooCommerce plugin, which is mandatory for Yith WooCommerce Catalog Mode to be working. If WooCommerce plugin is active, you just need to activate the Yith WooCommerce Catalog Mode plugin.
