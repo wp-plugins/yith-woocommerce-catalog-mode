@@ -1,19 +1,18 @@
 === YITH WooCommerce Catalog Mode ===
 
-
 Contributors: yithemes
-Tags: reviews, woocommerce, products, themes, yit, yith, e-commerce, shop, catalog mode
+Tags: woocommerce, products, themes, yit, yith, e-commerce, shop, catalog mode, catalogue mode, remove add to cart
 Requires at least: 4.0
 Tested up to: 4.1.1
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-YITH Woocommerce Catalog Mode allows you to disable shop functions.
+YITH WooCommerce Catalog Mode allows you to disable shop functions.
 
 == Description ==
 
-YITH Woocommerce Catalog Mode allows you to disable shop functions and transform your e-commerce into a catalog.
+YITH WooCommerce Catalog Mode allows you to disable shop functions and transform your e-commerce into a catalog.
 
 Discover all the features of the plugin and install it in your theme: the result will be extremely satisfying.
 
