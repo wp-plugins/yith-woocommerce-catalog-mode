@@ -20,9 +20,9 @@ $videobox = defined( 'YWCTM_PREMIUM' ) ? '' : array(
         'title_first_column'        => __( 'Discover the Advanced Features', 'ywctm' ),
         'description_first_column'  => __( 'Upgrade to the PREMIUM VERSION of YITH WooCommerce Catalog Mode to benefit from all features!', 'ywctm' ),
         'video'                     => array(
-            'video_id'           => '118792418',
-            'video_image_url'    =>  YWCTM_ASSETS_URL.'/images/yith-woocommerce-catalog-mode.jpg',
-            'video_description'  => __( 'YITH WooCommerce Catalog Mode', 'ywctm' ),
+            'video_id'          => '120697979',
+            'video_image_url'   =>  YWCTM_ASSETS_URL.'images/yith-woocommerce-catalog-mode.jpg',
+            'video_description' => __( 'YITH WooCommerce Catalog Mode', 'ywctm' ),
         ),
         'title_second_column'       => __( 'Get Support and Pro Features', 'ywctm' ),
         'description_second_column' => __( 'By purchasing the premium version of the plugin, you will take advantage of the advanced features of the product and you will get one year of free updates and support through our platform available 24h/24.', 'ywctm' ),
@@ -45,7 +45,7 @@ $exclusion = ! defined( 'YWCTM_PREMIUM' ) ? '' : array (
 
 return array(
     'settings' => array(
-        //'section_general_settings_videobox'                 => $videobox,
+        'section_general_settings_videobox'                 => $videobox,
         'catalog_mode_general_title'                        => array(
             'name'              => __( 'General Settings', 'ywctm' ),
             'type'              => 'title',

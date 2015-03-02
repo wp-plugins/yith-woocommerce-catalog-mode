@@ -75,23 +75,18 @@ class YITH_WC_Catalog_Mode {
 
                 if ( ! is_admin() ) {
 
-                    if ( get_option( 'ywctm_hide_add_to_cart_single' ) == 'yes' ) {
-                        add_action( 'woocommerce_single_product_summary',array( $this, 'hide_add_to_cart_single' ), 10 );
-                    }
+                    add_action( 'woocommerce_single_product_summary', array( $this, 'hide_add_to_cart_single' ), 10 );
+                    add_action( 'woocommerce_after_shop_loop_item', array( $this, 'hide_add_to_cart_loop' ), 5 );
+                    add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 
-                    if ( get_option( 'ywctm_hide_add_to_cart_loop' ) == 'yes' ) {
-                        add_action( 'woocommerce_after_shop_loop_item',array( $this, 'hide_add_to_cart_loop' ), 5 );
-                    }
-
-                    if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
-                        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-                    }
                 }
 
             }
-        }
-        else {
+
+        } else {
+
             self::reactivate_hidden_pages();
+
         }
 
     }
@@ -99,26 +94,26 @@ class YITH_WC_Catalog_Mode {
     /**
      * Hides "Add to cart" button, if not excluded, from single product page
      *
-     * @since   1.0
+     * @since   1.0.0
      * @author  Alberto Ruggiero
      * @return  void
      */
-    public function hide_add_to_cart_single(){
-        global $post;
+    public function hide_add_to_cart_single() {
 
-        $exclude_catalog    = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
-        $enable_exclusion   = get_option( 'ywctm_exclude_hide_add_to_cart' );
+        if ( get_option( 'ywctm_hide_add_to_cart_single' ) == 'yes' ) {
 
-        if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
+            global $post;
 
-            remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+            $exclude_catalog  = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
+            $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
 
-        } else {
-
-            if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
+            if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
                 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+            } else {
+                if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
+                    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+                }
             }
-
         }
 
     }
@@ -126,27 +121,27 @@ class YITH_WC_Catalog_Mode {
     /**
      * Hides "Add to cart" button, if not excluded, from loop page
      *
-     * @since   1.0
+     * @since   1.0.0
      * @author  Alberto Ruggiero
      * @return  void
      */
-    public function hide_add_to_cart_loop(){
-        global $post;
+    public function hide_add_to_cart_loop() {
 
-        $exclude_catalog = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
-        $enable_exclusion   = get_option( 'ywctm_exclude_hide_add_to_cart' );
+        if ( get_option( 'ywctm_hide_add_to_cart_loop' ) == 'yes' ) {
 
-        if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
+            global $post;
 
-            remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+            $exclude_catalog  = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
+            $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
 
-        } else {
-
-            if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
+            if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
                 remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-            }
-            else {
-                add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+            } else {
+                if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
+                    remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+                } else {
+                    add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+                }
             }
         }
 
@@ -155,22 +150,24 @@ class YITH_WC_Catalog_Mode {
     /**
      * Enqueue css file
      *
-     * @since   1.0
+     * @since   1.0.0
      * @author  Alberto Ruggiero
      * @return  void
      */
     public function enqueue_styles() {
-        wp_enqueue_style( 'yit-style', YWCTM_ASSETS_URL . '/css/yith-catalog-mode.css' );
+        if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
+            wp_enqueue_style( 'ywctm-style', YWCTM_ASSETS_URL . '/css/yith-catalog-mode.css' );
+        }
     }
 
     /**
      * Hides Cart and Checkout pages if option selected, otherwise shows them
      *
-     * @since   1.0
+     * @since   1.0.0
      * @author  Alberto Ruggiero
      * @return  void
      */
-    public function check_pages_status(){
+    public function check_pages_status() {
 
         $pages_to_check = array(
             get_option( 'woocommerce_cart_page_id' ),
@@ -241,9 +238,9 @@ class YITH_WC_Catalog_Mode {
 
         if ( defined( 'YWCTM_PREMIUM' ) ) {
             $admin_tabs['premium'] = __( 'Premium Settings', 'ywctm' );
-            $admin_tabs['exclusions'] = __( 'Exclusions List', 'ywctm' );
+            $admin_tabs['exclusions'] = __( 'Exclusion List', 'ywctm' );
         } else {
-           // $admin_tabs['premium-landing'] = __( 'Premium Version', 'ywctm' );
+            $admin_tabs['premium-landing'] = __( 'Premium Version', 'ywctm' );
         }
 
         $args = array(
@@ -267,7 +264,7 @@ class YITH_WC_Catalog_Mode {
      *
      * Load the premium tab template on admin page
      *
-     * @since   1.0
+     * @since   1.0.0
      * @author  Andrea Grillo <andrea.grillo@yithemes.com>
      * @return  void
      */
@@ -296,7 +293,7 @@ class YITH_WC_Catalog_Mode {
         $links[] = '<a href="' . admin_url( "admin.php?page={$this->_panel_page}" ) . '">' . __( 'Settings', 'ywctm' ) . '</a>';
 
         if ( defined( 'YWCTM_FREE_INIT' ) ) {
-           // $links[] = '<a href="' . $this->_premium_landing . '" target="_blank">' . __( 'Premium Version', 'ywctm' ) . '</a>';
+            $links[] = '<a href="' . $this->_premium_landing . '" target="_blank">' . __( 'Premium Version', 'ywctm' ) . '</a>';
         }
 
         return $links;
@@ -345,7 +342,7 @@ class YITH_WC_Catalog_Mode {
             'target'     => '#toplevel_page_yit_plugin_panel',
             'content'    => sprintf( '<h3> %s </h3> <p> %s </p>',
                 __( 'YITH WooCommerce Catalog Mode', 'ywctm' ),
-                __( 'In the YIT Plugins tab you can find the YITH WooCommerce Catalog Mode options. With this menu, you can access to all the settings of our plugins that you have activated.', 'ywctm' ) . '<br>' . $premium_message
+                __( 'In YIT Plugins tab you can find YITH WooCommerce Catalog Mode options. From this menu you can access all settings of YITH plugins activated.', 'ywctm' ) . '<br>' . $premium_message
             ),
             'position'   => array( 'edge' => 'left', 'align' => 'center' ),
             'init'       => defined( 'YWCTM_PREMIUM' ) ? YWCTM_INIT : YWCTM_FREE_INIT

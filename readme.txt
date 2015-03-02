@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, products, themes, yit, yith, e-commerce, shop, catalog mode, catalogue mode, remove add to cart
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,13 +38,17 @@ YITH WooCommerce Catalog Mode will add a new tab called "Catalog Mode" inside th
 
 == Changelog == 
 
+= 1.0.1 =
+
+* Fixed: Minor bugs
+
 = 1.0.0 =
 
 * Initial release
 
 == Upgrade Notice ==
 
-Last Stable Tag 1.0.0
+Last Stable Tag 1.0.1
 
 == Suggestions ==
 
