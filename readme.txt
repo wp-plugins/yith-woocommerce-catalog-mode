@@ -15,12 +15,12 @@ YITH WooCommerce Catalog Mode allows you to disable shop functions.
 YITH WooCommerce Catalog Mode lets you deactivate the selling features of your e-commerce site.
 
 With this plugin you can:
-- Create a showcase of your products
-- Temporarily deactivate the selling operations to perform maintenance actions in your warehouse without putting offline your site
+1. Create a showcase of your products
+2. Temporarily deactivate the selling operations to perform maintenance actions in your warehouse without putting offline your site
 
 How it works:
-- You can hide the "Add to cart" button in the site pages
-- You can hide the "Cart" and "Checkout page and the "Cart" widget in the site pages
+1. You can hide the "Add to cart" button in the site pages
+2. You can hide the "Cart" and "Checkout page and the "Cart" widget in the site pages
 
 Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woocommerce-catalog-mode/).
 
