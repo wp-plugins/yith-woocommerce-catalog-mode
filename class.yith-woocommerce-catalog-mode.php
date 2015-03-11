@@ -62,7 +62,6 @@ class YITH_WC_Catalog_Mode {
         ) );
 
         add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
-        add_action( 'admin_init', array( $this, 'register_pointer' ) );
 
         //  Add stylesheets and scripts files
         add_action( 'admin_menu', array( $this, 'add_menu_page' ), 5 );
@@ -393,32 +392,6 @@ class YITH_WC_Catalog_Mode {
         }
 
         return $plugin_meta;
-    }
-
-    public function register_pointer() {
-        if ( ! class_exists( 'YIT_Pointers' ) ) {
-
-            include_once( 'plugin-fw/lib/yit-pointers.php' );
-        }
-
-        $premium_message = defined( 'YWCTM_PREMIUM' )
-            ? ''
-            : __( 'YITH WooCommerce Catalog Mode is available in an outstanding PREMIUM version with many new options, discover it now.', 'ywctm' ) .
-            ' <a href="' . $this->get_premium_landing_uri() . '">' . __( 'Premium version', 'ywctm' ) . '</a>';
-
-        $args[] = array(
-            'screen_id'  => 'plugins',
-            'pointer_id' => $this->_panel_page,
-            'target'     => '#toplevel_page_yit_plugin_panel',
-            'content'    => sprintf( '<h3> %s </h3> <p> %s </p>',
-                __( 'YITH WooCommerce Catalog Mode', 'ywctm' ),
-                __( 'In YIT Plugins tab you can find YITH WooCommerce Catalog Mode options. From this menu you can access all settings of YITH plugins activated.', 'ywctm' ) . '<br>' . $premium_message
-            ),
-            'position'   => array( 'edge' => 'left', 'align' => 'center' ),
-            'init'       => defined( 'YWCTM_PREMIUM' ) ? YWCTM_INIT : YWCTM_FREE_INIT
-        );
-
-        YIT_Pointers()->register( $args );
     }
 
     /**
