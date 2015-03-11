@@ -5,7 +5,7 @@ Plugin URI: http://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/
 Description: YITH Woocommerce Catalog Mode allows you to disable shop functions.
 Author: Yithemes
 Text Domain: ywctm
-Version: 1.0.1
+Version: 1.0.2
 Author URI: http://yithemes.com/
 */
 
@@ -34,7 +34,7 @@ function ywctm_install_free_admin_notice() {
 }
 
 if ( ! defined( 'YWCTM_VERSION' ) ) {
-    define( 'YWCTM_VERSION', '1.0.1' );
+    define( 'YWCTM_VERSION', '1.0.2' );
 }
 
 if ( ! defined( 'YWCTM_FREE_INIT' ) ) {
@@ -66,18 +66,10 @@ function ywctm_init() {
     /* Load YWCTM text domain */
     load_plugin_textdomain( 'ywctm', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-    /**
-     * Init default plugin settings
-     */
-    if ( !function_exists( 'yith_plugin_registration_hook' ) ) {
-        require_once 'plugin-fw/yit-plugin-registration-hook.php';
-    }
 
-    require_once( YWCTM_DIR . 'class.yith-woocommerce-catalog-mode.php' );
-
-    register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
     register_deactivation_hook( __FILE__, array('YITH_WC_Catalog_Mode', 'reactivate_hidden_pages' ) );
 
+    global $YITH_WC_Catalog_Mode;
     $YITH_WC_Catalog_Mode = new YITH_WC_Catalog_Mode();
 }
 add_action( 'ywctm_init', 'ywctm_init' );
@@ -97,7 +89,16 @@ function ywctm_install() {
 }
 add_action( 'plugins_loaded', 'ywctm_install', 11 );
 
+/**
+ * Init default plugin settings
+ */
+if ( !function_exists( 'yith_plugin_registration_hook' ) ) {
+    require_once 'plugin-fw/yit-plugin-registration-hook.php';
+}
 
+require_once( YWCTM_DIR . 'class.yith-woocommerce-catalog-mode.php' );
+
+register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
 

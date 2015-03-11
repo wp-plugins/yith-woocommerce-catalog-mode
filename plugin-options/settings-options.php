@@ -11,6 +11,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
+global $YITH_WC_Catalog_Mode;
 
 $videobox = defined( 'YWCTM_PREMIUM' ) ? '' : array(
     'name'      => __( 'Upgrade to the PREMIUM VERSION', 'ywctm' ),
@@ -27,7 +28,7 @@ $videobox = defined( 'YWCTM_PREMIUM' ) ? '' : array(
         'title_second_column'       => __( 'Get Support and Pro Features', 'ywctm' ),
         'description_second_column' => __( 'By purchasing the premium version of the plugin, you will take advantage of the advanced features of the product and you will get one year of free updates and support through our platform available 24h/24.', 'ywctm' ),
         'button'                    => array(
-            'href'  => 'http://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/',
+            'href'  => $YITH_WC_Catalog_Mode->get_premium_landing_uri(),
             'title' => 'Get Support and Pro Features'
         )
     ),
