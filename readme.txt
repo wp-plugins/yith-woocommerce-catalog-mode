@@ -1,7 +1,7 @@
 === YITH WooCommerce Catalog Mode ===
 
 Contributors: yithemes
-Tags: woocommerce, products, themes, yit, yith, e-commerce, shop, catalog mode, catalogue mode, remove add to cart
+Tags: woocommerce, products, themes, yit, yith, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
 Requires at least: 4.0
 Tested up to: 4.1.1
 Stable tag: 1.0.2
