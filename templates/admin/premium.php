@@ -198,7 +198,7 @@
                     Upgrade to the <span class="highlight">premium version</span>
                     of <span class="highlight">YITH WooCommerce Catalog Mode</span> to benefit from all features!
                 </p>
-                <a href="<?php $this->get_premium_landing_uri() ?>" target="_blank" class="premium-cta-button button btn">
+                <a href="<?php echo $this->get_premium_landing_uri() ?>" target="_blank" class="premium-cta-button button btn">
                     <span class="highlight">UPGRADE</span>
                     <span>to the premium version</span>
                 </a>
@@ -279,6 +279,20 @@
             </div>
         </div>
     </div>
+    <div class="section section-odd clear" style="background: url(<?php echo YWCTM_ASSETS_URL ?>/images/06-bg.png) no-repeat #f1f1f1; background-position: 15% 100%">
+        <div class="landing-container">
+            <div class="col-2">
+                <div class="section-title">
+                    <img src="<?php echo YWCTM_ASSETS_URL ?>/images/06-icon.png" alt="Number" />
+                    <h2>REVERSE EXCLUSION LIST</h2>
+                </div>
+                <p>Apply Catalog Mode to some items only: add them to the "Exclusion List" and make it work in the opposite way as usual. All items in the shop show price and “Add to Cart” button, while items in the list don’t.</p>
+            </div>
+            <div class="col-1">
+                <img src="<?php echo YWCTM_ASSETS_URL ?>/images/06.png" alt="Number" />
+            </div>
+        </div>
+    </div>
     <div class="section section-cta section-odd">
         <div class="landing-container">
             <div class="premium-cta">
@@ -286,7 +300,7 @@
                     Upgrade to the <span class="highlight">premium version</span>
                     of <span class="highlight">YITH WooCommerce Catalog Mode</span> to benefit from all features!
                 </p>
-                <a href="<?php $this->get_premium_landing_uri() ?>" target="_blank" class="premium-cta-button button btn">
+                <a href="<?php echo $this->get_premium_landing_uri() ?>" target="_blank" class="premium-cta-button button btn">
                     <span class="highlight">UPGRADE</span>
                     <span>to the premium version</span>
                 </a>

@@ -21,8 +21,8 @@ $videobox = defined( 'YWCTM_PREMIUM' ) ? '' : array(
         'title_first_column'        => __( 'Discover the Advanced Features', 'ywctm' ),
         'description_first_column'  => __( 'Upgrade to the PREMIUM VERSION of YITH WooCommerce Catalog Mode to benefit from all features!', 'ywctm' ),
         'video'                     => array(
-            'video_id'          => '120697979',
-            'video_image_url'   =>  YWCTM_ASSETS_URL.'images/yith-woocommerce-catalog-mode.jpg',
+            'video_id'          => '118792418',
+            'video_image_url'   =>  YWCTM_ASSETS_URL.'/images/yith-woocommerce-catalog-mode.jpg',
             'video_description' => __( 'YITH WooCommerce Catalog Mode', 'ywctm' ),
         ),
         'title_second_column'       => __( 'Get Support and Pro Features', 'ywctm' ),
@@ -40,6 +40,15 @@ $exclusion = ! defined( 'YWCTM_PREMIUM' ) ? '' : array (
     'type'              => 'checkbox',
     'desc'              => __( 'Exclude selected products (See "Exclusions" tab)', 'ywctm' ),
     'id'                => 'ywctm_exclude_hide_add_to_cart',
+    'default'           => 'no',
+    'checkboxgroup'     => ''
+);
+
+$reverse_exclusion = ! defined( 'YWCTM_PREMIUM' ) ? '' : array (
+    'name'              => __( '"Add to cart" button', 'ywctm' ),
+    'type'              => 'checkbox',
+    'desc'              => __( 'Reverse Exclusion List (Restrict Catalog Mode to selected items only)', 'ywctm' ),
+    'id'                => 'ywctm_exclude_hide_add_to_cart_reverse',
     'default'           => 'no',
     'checkboxgroup'     => 'end'
 );
@@ -94,6 +103,7 @@ return array(
             'checkboxgroup'     => ! defined( 'YWCTM_PREMIUM' ) ? 'end' : ''
         ),
         'catalog_mode_settings_exclude_products'            => $exclusion,
+        'catalog_mode_settings_exclude_products_reverse'    => $reverse_exclusion,
         'catalog_mode_settings_disable_cart_in_header'      => array(
             'name'              => __( '"Cart" and "Checkout" pages', 'ywctm' ),
             'type'              => 'checkbox',
