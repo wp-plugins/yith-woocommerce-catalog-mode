@@ -14,12 +14,12 @@ YITH WooCommerce Catalog Mode, a plugin for disabling sales in your e-commerce a
 
 YITH WooCommerce Catalog Mode is one of our the most appealing plugins for our customers who need to switch their e-commerce site into an online catalogue. Reasons for this switch may be a thousand, but most common ones are concerned with the need of our customers to perform maintenance actions in their warehouse without putting their site offline. Have you ever happened to take inventory and have to put your website down? How many potential customers lost! A catalogue gives you the opportunity to leave your products online and to let your customers contact you anyway for whatever question they might have. This increases customers' loyalty and you do not lose visibility online.
 
-Features:
+**Features:**
 * Enable/disable the plugin from option panel
 * Enable showing plugin settings for administrators also
-* Hide “Add to Cart” button in product detail page
-* Hide “Add to Cart” button in the other pages of the site (catalog, shop etc.)
-* Hide “Cart” and “Checkout” pages and any reference to them
+* Hide "Add to Cart" button in product detail page
+* Hide "Add to Cart" button in the other pages of the site (catalog, shop etc.)
+* Hide "Cart" and "Checkout" pages and any reference to them
 
 Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woocommerce-catalog-mode/).
 
