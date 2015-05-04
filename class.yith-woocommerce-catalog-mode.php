@@ -71,21 +71,28 @@ class YITH_WC_Catalog_Mode {
 
             if ( $this->check_user_admin_enable() ){
 
-                add_action( 'init', array( $this, 'check_pages_status' ) );
+
 
                 if ( ! is_admin() ) {
+                    if( get_option( 'ywctm_hide_cart_header' ) == 'yes' ){
 
+                        $priority = has_action( 'wp_loaded', array( 'WC_Form_Handler', 'add_to_cart_action' ) );
+                        remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'add_to_cart_action' ), $priority );
+
+                    }
+
+                    add_action( 'wp', array( $this, 'check_pages_redirect' ) );
+                    add_action( 'get_pages', array( $this, 'hide_cart_checkout_pages' ) );
                     add_action( 'woocommerce_single_product_summary', array( $this, 'hide_add_to_cart_single' ), 10 );
                     add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'hide_add_to_cart_loop' ), 5 );
                     add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 
+                    add_filter( 'woocommerce_add_to_cart_validation', array( $this, 'avoid_add_to_cart' ), 10, 2 );
+
+
                 }
 
             }
-
-        } else {
-
-            self::reactivate_hidden_pages();
 
         }
 
@@ -137,25 +144,26 @@ class YITH_WC_Catalog_Mode {
     }
 
     /**
-     * Checks if "Add to cart" needs to be hidden
+     * Check if price is hidden to hide add to cart button
      *
-     * @since   1.0.2
+     * @since   1.0.4
+     * @param   $post_id
      * @author  Alberto Ruggiero
-     * @param   $priority
      * @return  bool
      */
-    public function check_add_to_cart_single( $priority = true ) {
+    public function check_price_hidden( $post_id ) {
 
         $hide = false;
 
-        if ( get_option( 'ywctm_enable_plugin' ) == 'yes' && $this->check_user_admin_enable() && get_option( 'ywctm_hide_add_to_cart_single' ) == 'yes' ) {
+        if ( get_option( 'ywctm_hide_price' ) == 'yes' ) {
 
-            global $post;
+            $ywctm_hide_price_users = ( get_option( 'ywctm_hide_price_users' ) != 'unregistered' ) ? true : false;
+            $user_logged = is_user_logged_in();
 
-            $exclude_catalog  = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
-            $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
+            if ( ! ( ! $ywctm_hide_price_users && $user_logged )  ) {
 
-            if ( $priority ) {
+                $exclude_catalog    = get_post_meta( $post_id, '_ywctm_exclude_hide_price', true );
+                $enable_exclusion   = get_option( 'ywctm_exclude_hide_price' );
 
                 if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
 
@@ -168,22 +176,156 @@ class YITH_WC_Catalog_Mode {
                         $hide = true;
 
                     }
+
                 }
+
+                $reverse_criteria = get_option( 'ywctm_exclude_hide_price_reverse' );
+
+                if ( $reverse_criteria == 'yes' ) {
+
+                    $hide = ! $hide;
+
+                }
+                
             }
-        }
-
-        $reverse_criteria = get_option( 'ywctm_exclude_hide_add_to_cart_reverse' );
-
-        if ( $reverse_criteria == '' || $reverse_criteria == 'no' ) {
-
-            return $hide;
-
-        }else{
-
-            return ! $hide;
 
         }
 
+        return $hide;
+
+    }
+
+    /**
+     * Checks if "Add to cart" needs to be hidden
+     *
+     * @since   1.0.2
+     * @author  Alberto Ruggiero
+     * @param   $priority
+     * @return  bool
+     */
+    public function check_add_to_cart_single( $priority = true ) {
+
+        $hide = false;
+
+        if ( get_option( 'ywctm_enable_plugin' ) == 'yes' && $this->check_user_admin_enable() ) {
+
+            if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
+
+                $hide = true;
+
+            } else {
+
+                global $post;
+
+                if ( get_option( 'ywctm_hide_add_to_cart_single' ) == 'yes' ) {
+
+                    $ywctm_hide_price_users = ( get_option( 'ywctm_hide_price_users' ) != 'unregistered' ) ? true : false;
+                    $user_logged = is_user_logged_in();
+
+                    if ( ! ( ! $ywctm_hide_price_users && $user_logged )  ) {
+
+                        $exclude_catalog  = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
+                        $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
+
+                        if ( $priority ) {
+
+                            if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
+
+                                $hide = true;
+
+                            } else {
+
+                                if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
+
+                                    $hide = true;
+
+                                }
+
+                            }
+
+                        }
+                    }
+
+                }
+
+                $reverse_criteria = get_option( 'ywctm_exclude_hide_add_to_cart_reverse' );
+
+                if ( $reverse_criteria == 'yes' ) {
+
+                    $hide = ! $hide;
+
+                }
+
+                if ( $this->check_price_hidden( $post->ID ) ) {
+
+                    $hide = true;
+
+                }
+
+            }
+
+        }
+
+        return $hide;
+    }
+
+    public function avoid_add_to_cart( $passed, $product_id ) {
+
+        if ( get_option( 'ywctm_enable_plugin' ) == 'yes' && $this->check_user_admin_enable() ) {
+
+            if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
+
+                $passed = false;
+
+            } else {
+
+                if ( get_option( 'ywctm_hide_add_to_cart_single' ) == 'yes' ) {
+
+                    $ywctm_hide_price_users = ( get_option( 'ywctm_hide_price_users' ) != 'unregistered' ) ? true : false;
+                    $user_logged = is_user_logged_in();
+
+                    if ( ! ( ! $ywctm_hide_price_users && $user_logged )  ) {
+
+                        $exclude_catalog  = get_post_meta( $product_id, '_ywctm_exclude_catalog_mode', true );
+                        $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
+
+                        if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
+
+                            $passed = false;
+
+                        } else {
+
+                            if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
+
+                                $passed = false;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                $reverse_criteria = get_option( 'ywctm_exclude_hide_add_to_cart_reverse' );
+
+                if ( $reverse_criteria == 'yes' ) {
+
+                    $passed = ! $passed;
+
+                }
+
+                if ( $this->check_price_hidden( $product_id ) ) {
+
+                    $passed = false;
+
+                }
+
+            }
+
+        }
+
+        return $passed;
     }
 
     /**
@@ -197,50 +339,94 @@ class YITH_WC_Catalog_Mode {
 
         $remove = false;
 
-        if ( get_option( 'ywctm_hide_add_to_cart_loop' ) == 'yes' ) {
+        if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
+
+            $remove = true;
+
+        } else {
 
             global $post;
 
+            if ( get_option( 'ywctm_hide_add_to_cart_loop' ) == 'yes' ) {
 
-            $exclude_catalog  = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
-            $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
+                $ywctm_hide_price_users = ( get_option( 'ywctm_hide_price_users' ) != 'unregistered' ) ? true : false;
+                $user_logged = is_user_logged_in();
 
-            if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
+                if ( ! ( ! $ywctm_hide_price_users && $user_logged )  ) {
+
+                    $exclude_catalog  = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
+                    $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
+
+                    if ( $enable_exclusion == '' || $enable_exclusion == 'no' ) {
+
+                        $remove = true;
+
+                    } else {
+
+                        if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
+
+                            $remove = true;
+
+                        } else {
+
+                            $remove = false;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            $reverse_criteria = get_option( 'ywctm_exclude_hide_add_to_cart_reverse' );
+
+            if ( $reverse_criteria == 'yes' ) {
+
+                $remove = ! $remove;
+
+            }
+
+            if ( $this->check_price_hidden( $post->ID ) ) {
 
                 $remove = true;
 
-            } else {
-
-                if ( $exclude_catalog == '' || $exclude_catalog == 'no' ) {
-
-                    $remove = true;
-
-                } else {
-
-                    $remove = false;
-
-                }
             }
-        }
-
-        $reverse_criteria = get_option( 'ywctm_exclude_hide_add_to_cart_reverse' );
-
-        if ( $reverse_criteria == 'yes' ) {
-
-            $remove = ! $remove;
 
         }
 
         if ( $remove ){
 
             remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+            add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'hide_add_to_cart_loop_filter' ), 10, 2);
 
         } else {
 
             add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+            remove_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'hide_add_to_cart_loop_filter' ), 10);
 
         }
 
+    }
+
+    /**
+     * Hide add to cart in loop
+     *
+     * Hide the button add to cart in the shop page
+     *
+     * @param   $link
+     * @param   $product
+     * @since   1.0.4
+     * @author  Emanuela Castorina
+     * @return  string
+     */
+    public function hide_add_to_cart_loop_filter( $link , $product ) {
+
+        if ( $product->product_type != 'variable') {
+            return '';
+        }
+
+        return $link;
     }
 
     /**
@@ -257,46 +443,64 @@ class YITH_WC_Catalog_Mode {
     }
 
     /**
-     * Hides Cart and Checkout pages if option selected, otherwise shows them
+     * Avoid Cart and Checkout Pages to be visited
      *
-     * @since   1.0.0
+     * @since   1.0.4
      * @author  Alberto Ruggiero
      * @return  void
      */
-    public function check_pages_status() {
-
-        $pages_to_check = array(
-            get_option( 'woocommerce_cart_page_id' ),
-            get_option( 'woocommerce_checkout_page_id' )
-        );
+    public function check_pages_redirect() {
 
         if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
 
-            foreach ( $pages_to_check as $page_id ) {
-                if ( get_post_status( $page_id ) != 'draft' ) {
-                    $page = array(
-                        'ID'          => $page_id,
-                        'post_status' => 'draft'
-                    );
+            $cart       = get_option( 'woocommerce_cart_page_id' );
+            $checkout   = get_option( 'woocommerce_checkout_page_id' );
 
-                    wp_update_post( $page );
-                }
-            }
+            wp_reset_query();
 
-        } else {
+            if( is_page( $cart ) || is_page( $checkout ) ) {
 
-            foreach ( $pages_to_check as $page_id ) {
-                if ( get_post_status ( $page_id ) != 'publish' ) {
-                    $page = array(
-                        'ID'            => $page_id,
-                        'post_status'   => 'publish'
-                    );
+                wp_redirect( home_url() );
+                exit;
 
-                    wp_update_post( $page );
-                }
             }
 
         }
+
+    }
+
+
+    /**
+     * Removes Cart and checkout pages from menu
+     *
+     * @since   1.0.4
+     * @param   $pages
+     * @author  Alberto Ruggiero
+     * @return  mixed
+     */
+    public function hide_cart_checkout_pages( $pages ) {
+
+        if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
+
+            $excluded_pages = array(
+                get_option( 'woocommerce_cart_page_id' ),
+                get_option( 'woocommerce_checkout_page_id' )
+            );
+
+            for ( $i = 0; $i < count( $pages ); $i++ ) {
+                $page = & $pages[ $i ];
+
+                if ( in_array( $page->ID, $excluded_pages ) ) {
+
+                    unset( $pages[ $i ] );
+
+                }
+
+            }
+
+        }
+
+        return $pages;
 
     }
 
@@ -430,32 +634,6 @@ class YITH_WC_Catalog_Mode {
         }
 
         return $plugin_meta;
-    }
-
-    /**
-     * On plugin deactivation, publish cart and checkout pages if se to draft
-     *
-     * @since   1.0.0
-     * @author  Alberto Ruggiero
-     * @return  void
-     */
-    static function reactivate_hidden_pages () {
-
-        $pages_to_check = array(
-            get_option( 'woocommerce_cart_page_id' ),
-            get_option( 'woocommerce_checkout_page_id' )
-        );
-
-        foreach ( $pages_to_check as $page_id ) {
-            if ( get_post_status ( $page_id ) != 'publish' ) {
-                $page = array(
-                    'ID'            => $page_id,
-                    'post_status'   => 'publish'
-                );
-
-                wp_update_post( $page );
-            }
-        }
     }
 
 }

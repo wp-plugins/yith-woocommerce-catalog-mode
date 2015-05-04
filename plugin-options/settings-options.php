@@ -107,7 +107,7 @@ return array(
         'catalog_mode_settings_disable_cart_in_header'      => array(
             'name'              => __( '"Cart" and "Checkout" pages', 'ywctm' ),
             'type'              => 'checkbox',
-            'desc'              => __( 'Hide', 'ywctm' ),
+            'desc'              => __( 'Hide and disable all shop features', 'ywctm' ),
             'id'                => 'ywctm_hide_cart_header',
             'default'           => 'no',
         ),
