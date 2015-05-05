@@ -398,35 +398,15 @@ class YITH_WC_Catalog_Mode {
         if ( $remove ){
 
             remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-            add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'hide_add_to_cart_loop_filter' ), 10, 2);
+            add_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10, 2);
 
         } else {
 
             add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-            remove_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'hide_add_to_cart_loop_filter' ), 10);
+            remove_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10);
 
         }
 
-    }
-
-    /**
-     * Hide add to cart in loop
-     *
-     * Hide the button add to cart in the shop page
-     *
-     * @param   $link
-     * @param   $product
-     * @since   1.0.4
-     * @author  Emanuela Castorina
-     * @return  string
-     */
-    public function hide_add_to_cart_loop_filter( $link , $product ) {
-
-        if ( $product->product_type != 'variable') {
-            return '';
-        }
-
-        return $link;
     }
 
     /**
