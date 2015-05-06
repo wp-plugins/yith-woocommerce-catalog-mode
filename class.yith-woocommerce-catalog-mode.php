@@ -71,8 +71,6 @@ class YITH_WC_Catalog_Mode {
 
             if ( $this->check_user_admin_enable() ){
 
-
-
                 if ( ! is_admin() ) {
                     if( get_option( 'ywctm_hide_cart_header' ) == 'yes' ){
 
@@ -88,7 +86,6 @@ class YITH_WC_Catalog_Mode {
                     add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 
                     add_filter( 'woocommerce_add_to_cart_validation', array( $this, 'avoid_add_to_cart' ), 10, 2 );
-
 
                 }
 
@@ -133,11 +130,30 @@ class YITH_WC_Catalog_Mode {
      */
     public function hide_add_to_cart_single() {
 
+        global $product;
+
         $priority = has_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart' );
 
-        if( $this->check_add_to_cart_single( $priority ) ) {
+        if ( $this->check_add_to_cart_single( $priority ) ) {
 
-            remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', $priority );
+            $hide_variations = get_option( 'ywctm_hide_variations' );
+
+            if ( isset( $product ) && $product->product_type == 'variable' && ( $hide_variations == 'no' || $hide_variations == '' ) ) {
+
+                $inline_js = "
+                        $( '.single_variation_wrap .variations_button' ).hide();
+                        $( document).on( 'woocommerce_variation_has_changed', function() {
+                            $( '.single_variation_wrap .variations_button' ).hide();
+                        });
+                        ";
+
+                wc_enqueue_js( $inline_js );
+
+            } else {
+
+                remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', $priority );
+
+            }
 
         }
 
@@ -201,9 +217,10 @@ class YITH_WC_Catalog_Mode {
      * @since   1.0.2
      * @author  Alberto Ruggiero
      * @param   $priority
+     * @param   $product_id
      * @return  bool
      */
-    public function check_add_to_cart_single( $priority = true ) {
+    public function check_add_to_cart_single( $priority = true , $product_id = false  ) {
 
         $hide = false;
 
@@ -217,6 +234,8 @@ class YITH_WC_Catalog_Mode {
 
                 global $post;
 
+                $post_id = ( $product_id ) ? $product_id : $post->ID;
+
                 if ( get_option( 'ywctm_hide_add_to_cart_single' ) == 'yes' ) {
 
                     $ywctm_hide_price_users = ( get_option( 'ywctm_hide_price_users' ) != 'unregistered' ) ? true : false;
@@ -224,7 +243,7 @@ class YITH_WC_Catalog_Mode {
 
                     if ( ! ( ! $ywctm_hide_price_users && $user_logged )  ) {
 
-                        $exclude_catalog  = get_post_meta( $post->ID, '_ywctm_exclude_catalog_mode', true );
+                        $exclude_catalog  = get_post_meta( $post_id, '_ywctm_exclude_catalog_mode', true );
                         $enable_exclusion = get_option( 'ywctm_exclude_hide_add_to_cart' );
 
                         if ( $priority ) {
@@ -256,7 +275,7 @@ class YITH_WC_Catalog_Mode {
 
                 }
 
-                if ( $this->check_price_hidden( $post->ID ) ) {
+                if ( $this->check_price_hidden( $post_id ) ) {
 
                     $hide = true;
 
@@ -393,17 +412,25 @@ class YITH_WC_Catalog_Mode {
 
             }
 
+            $product = wc_get_product( $post );
+
+            if ( $product->product_type == 'variable' ) {
+
+                $remove = false;
+
+            }
+
         }
 
         if ( $remove ){
 
             remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-            add_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10, 2);
+            add_filter( 'woocommerce_loop_add_to_cart_link', '_return_empty_string', 10 );
 
         } else {
 
             add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-            remove_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10);
+            remove_filter( 'woocommerce_loop_add_to_cart_link', '_return_empty_string', 10 );
 
         }
 
@@ -420,6 +447,7 @@ class YITH_WC_Catalog_Mode {
         if ( get_option( 'ywctm_hide_cart_header' ) == 'yes' ) {
             wp_enqueue_style( 'ywctm-style', YWCTM_ASSETS_URL . '/css/yith-catalog-mode.css' );
         }
+
     }
 
     /**

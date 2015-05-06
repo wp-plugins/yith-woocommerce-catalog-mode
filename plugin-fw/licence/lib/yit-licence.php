@@ -158,9 +158,9 @@ if ( ! class_exists( 'YIT_Licence' ) ) {
          */
         public function localize_script() {
             wp_localize_script( 'yit-licence', 'licence_message', array(
-                    'error'  => __( '%field% field cannot be empty', 'yit' ),
-                    'errors' => __( '%field_1% and %field_2% fields cannot be empty', 'yit' ),
-                    'server' => __( 'Unable to contact the remote server, please try again later. Thanks!', 'yit' )
+                    'error'  => __( '%field% field cannot be empty', 'yith-plugin-fw' ),
+                    'errors' => __( '%field_1% and %field_2% fields cannot be empty', 'yith-plugin-fw' ),
+                    'server' => __( 'Unable to contact the remote server, please try again later. Thanks!', 'yith-plugin-fw' )
                 )
             );
         }
@@ -545,14 +545,14 @@ if ( ! class_exists( 'YIT_Licence' ) ) {
         public function get_error_code_message( $code ) {
 
             $error_strings = array(
-                '100' => __( 'Invalid Request', 'yit' ),
-                '101' => __( 'Invalid licence key', 'yit' ),
-                '102' => __( 'Software has been deactivated', 'yit' ),
-                '103' => __( 'Maximum number of activations exceeded', 'yit' ),
-                '104' => __( 'Invalid instance ID', 'yit' ),
-                '105' => __( 'Invalid security key', 'yit' ),
-                '106' => __( 'Licence key has expired', 'yit' ),
-                '107' => __( 'Licence key has been banned', 'yit' )
+                '100' => __( 'Invalid Request', 'yith-plugin-fw' ),
+                '101' => __( 'Invalid licence key', 'yith-plugin-fw' ),
+                '102' => __( 'Software has been deactivated', 'yith-plugin-fw' ),
+                '103' => __( 'Maximum number of activations exceeded', 'yith-plugin-fw' ),
+                '104' => __( 'Invalid instance ID', 'yith-plugin-fw' ),
+                '105' => __( 'Invalid security key', 'yith-plugin-fw' ),
+                '106' => __( 'Licence key has expired', 'yith-plugin-fw' ),
+                '107' => __( 'Licence key has been banned', 'yith-plugin-fw' )
             );
 
             return isset( $error_strings[$code] ) ? $error_strings[$code] : false;

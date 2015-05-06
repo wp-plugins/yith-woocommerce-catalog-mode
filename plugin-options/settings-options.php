@@ -50,6 +50,15 @@ $reverse_exclusion = ! defined( 'YWCTM_PREMIUM' ) ? '' : array (
     'desc'              => __( 'Reverse Exclusion List (Restrict Catalog Mode to selected items only)', 'ywctm' ),
     'id'                => 'ywctm_exclude_hide_add_to_cart_reverse',
     'default'           => 'no',
+    'checkboxgroup'     => ''
+);
+
+$product_variations =  ! defined( 'YWCTM_PREMIUM' ) ? '' : array(
+    'name'              => __( 'Variable products', 'ywctm' ),
+    'type'              => 'checkbox',
+    'desc'              => __( 'Hide product variations', 'ywctm' ),
+    'id'                => 'ywctm_hide_variations',
+    'default'           => 'no',
     'checkboxgroup'     => 'end'
 );
 
@@ -104,6 +113,7 @@ return array(
         ),
         'catalog_mode_settings_exclude_products'            => $exclusion,
         'catalog_mode_settings_exclude_products_reverse'    => $reverse_exclusion,
+        'catalog_mode_settings_variable_products'    => $product_variations,
         'catalog_mode_settings_disable_cart_in_header'      => array(
             'name'              => __( '"Cart" and "Checkout" pages', 'ywctm' ),
             'type'              => 'checkbox',
