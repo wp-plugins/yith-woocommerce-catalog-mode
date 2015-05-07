@@ -425,12 +425,12 @@ class YITH_WC_Catalog_Mode {
         if ( $remove ){
 
             remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-            add_filter( 'woocommerce_loop_add_to_cart_link', '_return_empty_string', 10 );
+            add_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10 );
 
         } else {
 
             add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-            remove_filter( 'woocommerce_loop_add_to_cart_link', '_return_empty_string', 10 );
+            remove_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10 );
 
         }
 
