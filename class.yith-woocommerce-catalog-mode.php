@@ -220,7 +220,7 @@ class YITH_WC_Catalog_Mode {
      * @param   $product_id
      * @return  bool
      */
-    public function check_add_to_cart_single( $priority = true , $product_id = false  ) {
+    public function check_add_to_cart_single( $priority = true, $product_id = false ) {
 
         $hide = false;
 
@@ -288,6 +288,15 @@ class YITH_WC_Catalog_Mode {
         return $hide;
     }
 
+    /**
+     * Checks if "Add to cart" needs to be avoided
+     *
+     * @since   1.0.5
+     * @author  Alberto Ruggiero
+     * @param   $passed
+     * @param   $product_id
+     * @return  bool
+     */
     public function avoid_add_to_cart( $passed, $product_id ) {
 
         if ( get_option( 'ywctm_enable_plugin' ) == 'yes' && $this->check_user_admin_enable() ) {
@@ -348,13 +357,13 @@ class YITH_WC_Catalog_Mode {
     }
 
     /**
-     * Hides "Add to cart" button, if not excluded, from loop page
+     * Checks if "Add to cart" needs to be hidden from loop page
      *
-     * @since   1.0.0
+     * @since   1.0.6
      * @author  Alberto Ruggiero
-     * @return  void
+     * @return  bool
      */
-    public function hide_add_to_cart_loop() {
+    public function check_hide_add_cart_loop() {
 
         $remove = false;
 
@@ -422,7 +431,19 @@ class YITH_WC_Catalog_Mode {
 
         }
 
-        if ( $remove ){
+        return $remove;
+    }
+
+    /**
+     * Hides "Add to cart" button, if not excluded, from loop page
+     *
+     * @since   1.0.0
+     * @author  Alberto Ruggiero
+     * @return  void
+     */
+    public function hide_add_to_cart_loop() {
+
+        if ( $this->check_hide_add_cart_loop() ){
 
             remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
             add_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10 );
