@@ -151,7 +151,16 @@ class YITH_WC_Catalog_Mode {
 
             } else {
 
-                remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', $priority );
+                //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', $priority );
+
+                $inline_js = "$( '.cart button.single_add_to_cart_button' ).hide();";
+
+                if ( !class_exists( 'YITH_YWRAQ_Frontend' ) ) {
+
+                    $inline_js .= "$( '.cart .quantity' ).hide();";
+                }
+
+                wc_enqueue_js( $inline_js );
 
             }
 
