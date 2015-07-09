@@ -71,7 +71,7 @@ class YITH_WC_Catalog_Mode {
 
             if ( $this->check_user_admin_enable() ){
 
-                if ( ! is_admin() ) {
+                if ( ! is_admin() || $this->is_quick_view() ) {
                     if( get_option( 'ywctm_hide_cart_header' ) == 'yes' ){
 
                         $priority = has_action( 'wp_loaded', array( 'WC_Form_Handler', 'add_to_cart_action' ) );
@@ -128,11 +128,11 @@ class YITH_WC_Catalog_Mode {
      * @author  Alberto Ruggiero
      * @return  void
      */
-    public function hide_add_to_cart_single() {
+    public function hide_add_to_cart_single( $action = 'woocommerce_single_product_summary' ) {
 
         global $product;
 
-        $priority = has_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart' );
+        $priority = has_action( $action, 'woocommerce_template_single_add_to_cart' );
 
         if ( $this->check_add_to_cart_single( $priority ) ) {
 
@@ -146,9 +146,6 @@ class YITH_WC_Catalog_Mode {
                             $( '.single_variation_wrap .variations_button' ).hide();
                         });
                         ";
-
-                wc_enqueue_js( $inline_js );
-
             } else {
 
                 //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', $priority );
@@ -159,14 +156,41 @@ class YITH_WC_Catalog_Mode {
 
                     $inline_js .= "$( 'form.cart .quantity' ).hide();";
                 }
-
-                wc_enqueue_js( $inline_js );
-
             }
+
+	        if( $this->is_quick_view() ) {
+		        add_action( 'woocommerce_before_add_to_cart_button', array( $this, 'hide_add_to_cart_quick_view' ) );
+	        }
+	        else {
+		        wc_enqueue_js( $inline_js );
+	        }
 
         }
 
     }
+
+
+	/**
+	 * Hide add to cart button in quick view
+	 *
+	 */
+	public function hide_add_to_cart_quick_view() {
+		ob_start();
+		?>
+		<style>
+			form.cart button.single_add_to_cart_button,
+			.single_variation_wrap .variations_button {
+				display: none !important;
+			}
+			<?php if( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) : ?>
+				form.cart .quantity {
+					display: none !important;
+				}
+			<?php endif; ?>
+		</style>
+		<?php
+		echo ob_get_clean();
+	}
 
     /**
      * Check if price is hidden to hide add to cart button
@@ -672,6 +696,19 @@ class YITH_WC_Catalog_Mode {
         }
 
         return $plugin_meta;
+    }
+
+    /**
+     *
+     * say if the code is execute by quick view
+
+     *
+     * @return   bool
+     * @since    1.0.7
+     * @author   Andrea Frascaspata <andrea.frascaspata@yithemes.com>
+     */
+    public function is_quick_view() {
+        return defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_REQUEST[ 'action' ] ) && ( $_REQUEST[ 'action' ] == 'yith_load_product_quick_view' || $_REQUEST[ 'action' ] == 'yit_load_product_quick_view' );
     }
 
 }

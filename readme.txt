@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, products, themes, yit, yith, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,11 @@ YITH WooCommerce Catalog Mode will add a new tab called "Catalog Mode" inside th
 
 == Changelog ==
 
+= 1.0.8 =
+
+* Updated language file
+* Fixed: YITH WooCommerce Quick View compatibility
+
 = 1.0.7 =
 
 * Fixed: Added functions for themes and plugins compatibility
@@ -83,7 +88,7 @@ YITH WooCommerce Catalog Mode will add a new tab called "Catalog Mode" inside th
 
 == Upgrade Notice ==
 
-Last Stable Tag 1.0.2
+Last Stable Tag 1.0.8
 
 == Suggestions ==
 
