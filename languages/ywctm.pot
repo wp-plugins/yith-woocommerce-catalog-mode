@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YITH WooCommerce Catalog Mode\n"
+"POT-Creation-Date: 2015-07-09 12:20+0100\n"
+"PO-Revision-Date: 2015-07-09 12:20+0100\n"
+"Last-Translator: \n"
+"Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;_n:1,2;__ngettext:1,2;"
+"__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;"
+"_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=n!=1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../plugin-fw\n"
+
+#: ../class.yith-woocommerce-catalog-mode.php:598
+#: ../class.yith-woocommerce-catalog-mode.php:666
+msgid "Settings"
+msgstr ""
+
+#: ../class.yith-woocommerce-catalog-mode.php:602
+msgid "Premium Settings"
+msgstr ""
+
+#: ../class.yith-woocommerce-catalog-mode.php:603
+msgid "Exclusion List"
+msgstr ""
+
+#: ../class.yith-woocommerce-catalog-mode.php:605
+#: ../class.yith-woocommerce-catalog-mode.php:669
+msgid "Premium Version"
+msgstr ""
+
+#: ../class.yith-woocommerce-catalog-mode.php:611
+#: ../class.yith-woocommerce-catalog-mode.php:612
+msgid "Catalog Mode"
+msgstr ""
+
+#: ../class.yith-woocommerce-catalog-mode.php:695
+msgid "Plugin Documentation"
+msgstr ""
+
+#: ../init.php:23
+msgid ""
+"YITH WooCommerce Catalog Mode is enabled but not effective. It requires "
+"WooCommerce in order to work."
+msgstr ""
+
+#: ../init.php:31
+msgid ""
+"You can't activate the free version of YITH WooCommerce Catalog Mode while "
+"you are using the premium one."
+msgstr ""
+
+#: ../plugin-options/settings-options.php:17
+msgid "Upgrade to the PREMIUM VERSION"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:20
+#: ../plugin-options/settings-options.php:26
+msgid "YITH WooCommerce Catalog Mode"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:21
+msgid "Discover the Advanced Features"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:22
+msgid ""
+"Upgrade to the PREMIUM VERSION of YITH WooCommerce Catalog Mode to benefit "
+"from all features!"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:28
+msgid "Get Support and Pro Features"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:29
+msgid ""
+"By purchasing the premium version of the plugin, you will take advantage of "
+"the advanced features of the product and you will get one year of free "
+"updates and support through our platform available 24h/24."
+msgstr ""
+
+#: ../plugin-options/settings-options.php:39
+#: ../plugin-options/settings-options.php:48
+#: ../plugin-options/settings-options.php:99
+#: ../plugin-options/settings-options.php:107
+msgid "\"Add to cart\" button"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:41
+msgid "Exclude selected products (See \"Exclusions\" tab)"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:50
+msgid "Reverse Exclusion List (Restrict Catalog Mode to selected items only)"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:57
+msgid "Variable products"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:59
+msgid "Hide product variations"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:69
+msgid "General Settings"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:75
+msgid "Enable YITH Woocommerce Catalog Mode"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:82
+msgid "Admin View"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:84
+msgid "Enable Catalog Mode also for administrators"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:93
+msgid "Catalog Mode Settings"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:101
+msgid "Hide in product details page"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:109
+msgid "Hide in other pages"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:118
+msgid "\"Cart\" and \"Checkout\" pages"
+msgstr ""
+
+#: ../plugin-options/settings-options.php:120
+msgid "Hide and disable all shop features"
+msgstr ""
